@@ -16,7 +16,7 @@ router.post("/register", async (req, res) => {
     //Step 2: existing user or not, If yes throw error
     const user = await User.findOne({ email: email });
     if (user) {
-        return res.status(403).json({ error: "A user with this email already exists" })
+        return res.status(403).json({ err: "A user with this email already exists" })
     }
     //This means no user there, create a new user in DB
     // CONVERT THE PLAIN TEXT PASSWORD TO A HASH
@@ -44,7 +44,7 @@ router.post("/login", async (req,res) =>{
     //Step 2: Check if user with given email already exist, if not invalid 
     const user = await User.findOne({email:email});
     if(!user){
-        return res.status(403).json({error:"Invalid Credentials"});
+        return res.status(403).json({err:"Invalid Credentials"});
     }
 
     //Step 3: If exists, match the password. If not correct, incorrect credentials

@@ -1,10 +1,12 @@
 // import { Icon } from "@iconify/react";
 
 import { useState } from "react";
-import {useCookies} from "react-cookie";
+import { useCookies } from "react-cookie";
 import logo from "../Logo.png";
 import TextInput from "../components/shared/TextInput";
-import { Link } from "react-router-dom";
+import {Link } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { makeUnauthenticatedPOSTRequest } from "../utils/serverHelper";
 
 const SignupComponent = () => {
@@ -15,7 +17,10 @@ const SignupComponent = () => {
   const [firstname, setFirstname] = useState("");
   const [lastname, setLastname] = useState("");
   const [cookie, setCookie] = useCookies(["token"]);
-  
+  // const history = useHistory();
+  const navigate = useNavigate();
+
+
   const signUp = async () => {
     if (email !== confirmEmail) {
       alert("Email and Confirm email fields must match. Please check again");
@@ -23,16 +28,19 @@ const SignupComponent = () => {
     }
     const data = { email, password, username, firstname, lastname };
     // console.log(data);
-    const response= await makeUnauthenticatedPOSTRequest("/auth/register", data);
-    if(response && !response.err){
-      console.log(response);
+    const response = await makeUnauthenticatedPOSTRequest(
+      "/auth/register",
+      data
+    );
+    if (response && !response.err) {
+      // console.log(response);
       const token = response.token;
-      const date= new Date();
-      date.setDate(date.getDate()+30);
-      setCookie("token",token,{path:"/", expires:date});
+      const date = new Date();
+      date.setDate(date.getDate() + 30);
+      setCookie("token", token, { path: "/", expires: date });
       alert("Success");
-    } 
-    else{
+      navigate("/home");
+    } else {
       alert("Failure");
     }
   };

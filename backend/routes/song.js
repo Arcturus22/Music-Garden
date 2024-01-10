@@ -44,7 +44,7 @@ router.get(
     
     //artist.length==0
     if (!artist ) {
-      return res.status(301).json({ error: "Artist does not exist" });
+      return res.status(301).json({ err: "Artist does not exist" });
     }
 
     const songs = await Song.find({ artist: artistId });
