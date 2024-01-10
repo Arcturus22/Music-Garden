@@ -8,7 +8,7 @@ const TextInput = ({
 }) => {
   return (
     <div className={`TextInputDiv flex flex-col space-y-2 w-full ${className}`}>
-      <label for={label} className="font-semibold">
+      <label htmlFor={label} className="font-semibold">
         {label}
       </label>
       <input
@@ -18,6 +18,7 @@ const TextInput = ({
         id={label}
         value={value}
         onChange={(e) => {
+          // console.log(value);
           setValue(e.target.value);
           // console.log(e.target);
         }}

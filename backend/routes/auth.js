@@ -20,7 +20,7 @@ router.post("/register", async (req, res) => {
     }
     //This means no user there, create a new user in DB
     // CONVERT THE PLAIN TEXT PASSWORD TO A HASH
-    const hashedPass = bcrypt.hash(password, 10);
+    const hashedPass = await bcrypt.hash(password, 10);
     const newUserData = { email, password: hashedPass, firstname, lastname, username };
     
     const newUser = await User.create(newUserData);

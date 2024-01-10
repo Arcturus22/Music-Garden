@@ -14,8 +14,6 @@ const songRoutes = require("./routes/song");
 const playlistRoutes = require("./routes/playlist");
 const cors=require("cors");
 
-
-
 app.use(cors());
 app.use(express.json());
 
