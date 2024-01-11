@@ -2,6 +2,7 @@ import Logo from "../Logo.png";
 import IconText from "../components/shared/IconText";
 import { Icon } from "@iconify/react";
 import TextwithHover from "../components/shared/TextwithHover";
+import SingleSongCard from "../components/shared/SingleSongCard";
 
 const MyMusic = () => {
   return (
@@ -77,8 +78,16 @@ const MyMusic = () => {
             </div>
           </div>
         </div>
-        <div className="content p-8 pt-0 overflow-auto">
+        <div className="content p-8  overflow-auto">
           {/* This div is for content */}
+          <div className="text-white text-xl font-semibold pb-4 pl-2">My Songs</div>
+          <div className="space-y-3 overflow-auto">
+          <SingleSongCard/>
+          <SingleSongCard/>
+          <SingleSongCard/>
+          <SingleSongCard/>
+
+          </div>
         </div>
       </div>
     </div>
