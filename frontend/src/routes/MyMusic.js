@@ -2,33 +2,8 @@ import Logo from "../Logo.png";
 import IconText from "../components/shared/IconText";
 import { Icon } from "@iconify/react";
 import TextwithHover from "../components/shared/TextwithHover";
-import TextInput from "../components/shared/TextInput";
-import CloudinaryUpload from "../components/shared/CloudinaryUpload";
-import { useState } from "react";
-import { makeAuthenticatedPOSTRequest } from "../utils/serverHelper";
-import {useNavigate} from 'react-router-dom';
 
-const UploadSong = () => {
-  // console.log(window);
-  // console.log(window.cloudinary);
-  const [name, setName] = useState("");
-  const [thumbnail, setThumbnail] = useState("");
-  const [songUrl, setSongUrl] = useState("");
-  const [uploadedSongFileName, setUploadedSongFileName] = useState("");
-  const navigate=useNavigate();
-
-  const submitSong = async () => {
-    const data = { name, thumbnail, track: songUrl };
-    const response = await makeAuthenticatedPOSTRequest("/song/create", data);
-    console.log(response);
-    if(response.err){
-      alert("Could not create song");
-      return ;
-    }
-    alert("Successfully created your song");
-    navigate("/home");
-  };
-
+const MyMusic = () => {
   return (
     <div className="h-full w-full flex ">
       {/* This is the screen size div due to w-full and h-full */}
@@ -57,7 +32,7 @@ const UploadSong = () => {
             <IconText
               iconName={"ic:sharp-library-music"}
               displayText={"My Music"}
-              //   active
+                active
             />
           </div>
           <div className="py-4">
@@ -69,7 +44,7 @@ const UploadSong = () => {
             <IconText
               iconName={"mdi:heart-box"}
               displayText={"Liked Songs"}
-              active
+            //   active
             />
           </div>
         </div>
@@ -104,55 +79,10 @@ const UploadSong = () => {
         </div>
         <div className="content p-8 pt-0 overflow-auto">
           {/* This div is for content */}
-          <div className="text-2xl font-semibold mb-5 text-white mt-8">
-            Upload Your Music
-          </div>
-          <div className="w-2/3 flex space-x-3">
-            <div className="w-1/2">
-              <TextInput
-                label="Name"
-                labelClassName={"text-white"}
-                placeholder="Name"
-                value={name}
-                setValue={setName}
-              />
-            </div>
-            <div className="w-1/2">
-              <TextInput
-                label={"Thumbnail"}
-                labelClassName={"text-white"}
-                placeholder="Thumbnail"
-                value={thumbnail}
-                setValue={setThumbnail}
-              />
-            </div>
-          </div>
-          <div className="py-5">
-            {uploadedSongFileName ? (
-              <div className="flex items-center ">
-                <div className="bg-white text-center rounded-full p-2 w-1/4">
-                  {uploadedSongFileName.substring(0, 20)}...
-                </div>
-                <div className="text-white pl-3">Audio Uploaded</div>
-              </div>
-            ) : (
-              <CloudinaryUpload
-                setUrl={setSongUrl}
-                setName={setUploadedSongFileName}
-              />
-            )}
-          </div>
-          <div
-            className="bg-white font-semibold flex items-center justify-center rounded-full p-1 cursor-pointer"
-            style={{ width: "15%" }}
-            onClick={submitSong}
-          >
-            Submit Song
-          </div>
         </div>
       </div>
     </div>
   );
 };
 
-export default UploadSong;
+export default MyMusic;

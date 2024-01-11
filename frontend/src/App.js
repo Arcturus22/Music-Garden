@@ -6,8 +6,8 @@ import SignupComponent from "./routes/Signup";
 import HomeComponent from "./routes/Home";
 import LoggedInHomeComponent from "./routes/LoggedInhome";
 import UploadSongComponent from "./routes/UploadSong";
+import MyMusicComponent from "./routes/MyMusic";
 import { useCookies } from "react-cookie";
-
 
 function App() {
   const [cookie, setCookie] = useCookies(["token"]);
@@ -22,6 +22,7 @@ function App() {
             <Route path="/" element={<div>Hello</div>} />
             <Route path="/home" element={<LoggedInHomeComponent />} />
             <Route path="/uploadSong" element={<UploadSongComponent />} />
+            <Route path="/myMusic" element={<MyMusicComponent />} />
             <Route path="*" element={<Navigate to="/home" />} />
           </Routes>
         ) : (

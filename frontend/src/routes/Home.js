@@ -83,7 +83,7 @@ const Home = () => {
             <IconText
               iconName={"ion:home-sharp"}
               displayText={"Home"}
-              // active
+              active
             />
             <IconText
               iconName={"ion:search-sharp"}
@@ -105,7 +105,7 @@ const Home = () => {
             <IconText
               iconName={"mdi:heart-box"}
               displayText={"Liked Songs"}
-              active
+              // active
             />
           </div>
         </div>
