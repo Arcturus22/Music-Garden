@@ -1,9 +1,16 @@
+import { useContext } from "react";
+import songContext from "../../contexts/songContext";
+
 const SingleSongCard = ({ info, playSound }) => {
+
+  const {currentSong, setCurrrentSong}=useContext(songContext);
+  // console.log(info);
+
   return (
     <div
-      className="flex hover:bg-gray-400 hover:bg-opacity-20 p-2 rounded-sm"
+      className="flex hover:bg-gray-400 hover:bg-opacity-20 p-2 rounded-sm cursor-pointer"
       onClick={() => {
-        playSound(info.track);
+        setCurrrentSong(info);
       }}
     >
       <div

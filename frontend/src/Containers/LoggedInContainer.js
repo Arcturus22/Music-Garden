@@ -4,10 +4,15 @@ import { Icon } from "@iconify/react";
 import TextwithHover from "../components/shared/TextwithHover";
 import { useState } from "react";
 import { Howl, Howler } from "howler";
+import songContext from "../contexts/songContext";
+import { useContext } from "react";
 
 const LoggedInContainer = ({ children }) => {
   const [soundPlayed, setSoundPlayed] = useState(null);
   const [isPaused, setIsPaused] = useState(true);
+
+  const { currentSong, setCurrrentSong } = useContext(songContext);
+  // console.log(currentSong);
 
   const playSound = (songSrc) => {
     if (soundPlayed) {
@@ -29,9 +34,7 @@ const LoggedInContainer = ({ children }) => {
 
   const togglePlayPause = () => {
     if (isPaused) {
-      playSound(
-        "https://res.cloudinary.com/dc4n1ojpv/video/upload/v1704941685/l6b3xfbcnb6dxslffpbn.mp3"
-      );
+      playSound(currentSong.track);
       setIsPaused(false);
     } else {
       pauseSound();
@@ -41,7 +44,7 @@ const LoggedInContainer = ({ children }) => {
 
   return (
     <div className="h-full w-full bg-appBlack">
-      <div className="h-9/10 w-full  flex">
+      <div className={`${currentSong ? "h-9/10" : "h-full"} w-full  flex`}>
         {/* This is the screen size div due to w-full and h-full */}
         <div className="LeftPart h-full w-1/5 bg-black flex flex-col justify-between pb-10">
           <div>
@@ -120,64 +123,68 @@ const LoggedInContainer = ({ children }) => {
         </div>
       </div>
       {/* This div is the current playing song */}
-      <div className="bg-black bg-opacity-30 w-full h-1/10 text-white flex  items-center px-4">
-        <div className="w-1/4 h-full flex items-start ">
-          <div className="flex  h-full px-1 py-2">
-            <img
-              src="https://i0.wp.com/lefuturewave.com/wp-content/uploads/2021/02/140504109_838490563383556_3030906923450431124_n.jpg?resize=325%2C325&ssl=1"
-              alt="SongThumbnail"
-              className="h-14 w-14 rounded-full"
-            />
-            <div className=" pl-3 h-full flex-row justify-center ">
-              <div className="text-sm  cursor-pointer h-1/2 flex justify-center items-end hover:underline">
-                Darkside
-              </div>
-              <div className="text-xs  text-gray-500 cursor-pointer items-start flex h-1/2 hover:underline">
-                Neoni
+      {currentSong && (
+        <div className="bg-black bg-opacity-30 w-full h-1/10 text-white flex  items-center px-4">
+          <div className="w-1/4 h-full flex items-start ">
+            <div className="flex  h-full px-1 py-2">
+              <img
+                src={currentSong.thumbnail}
+                alt="SongThumbnail"
+                className="h-14 w-14 rounded-full"
+              />
+              <div className=" pl-3 h-full flex-row justify-center ">
+                <div className="text-sm  cursor-pointer h-1/2 flex justify-center items-end hover:underline">
+                  {currentSong.name}
+                </div>
+                <div className="text-xs  text-gray-500 cursor-pointer items-start flex h-1/2 hover:underline">
+                  {currentSong.artist.firstname +
+                    " " +
+                    currentSong.artist.lastname}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div className="w-1/2 h-full flex flex-col justify-center items-center ">
-          <div className="flex w-1/3 justify-between items-center ">
-            {/* Controls for playing song */}
-            <Icon
-              icon="ion:shuffle-sharp"
-              fontSize={28}
-              className="cursor-pointer text-gray-500 hover:text-white"
-            />
-            <Icon
-              icon="fluent:previous-16-filled"
-              fontSize={28}
-              className="cursor-pointer text-gray-500 hover:text-white"
-            />
-            <Icon
-              icon={
-                isPaused
-                  ? "ic:baseline-play-circle"
-                  : "ic:baseline-pause-circle"
-              }
-              fontSize={50}
-              className="cursor-pointer text-gray-500 hover:text-white"
-              onClick={() => {
-                togglePlayPause();
-              }}
-            />
-            <Icon
-              icon="fluent:next-16-filled"
-              fontSize={28}
-              className="cursor-pointer text-gray-500 hover:text-white"
-            />
-            <Icon
-              icon="ic:twotone-repeat"
-              fontSize={28}
-              className="cursor-pointer text-gray-500 hover:text-white"
-            />
+          <div className="w-1/2 h-full flex flex-col justify-center items-center ">
+            <div className="flex w-1/3 justify-between items-center ">
+              {/* Controls for playing song */}
+              <Icon
+                icon="ion:shuffle-sharp"
+                fontSize={28}
+                className="cursor-pointer text-gray-500 hover:text-white"
+              />
+              <Icon
+                icon="fluent:previous-16-filled"
+                fontSize={28}
+                className="cursor-pointer text-gray-500 hover:text-white"
+              />
+              <Icon
+                icon={
+                  isPaused
+                    ? "ic:baseline-play-circle"
+                    : "ic:baseline-pause-circle"
+                }
+                fontSize={50}
+                className="cursor-pointer text-gray-500 hover:text-white"
+                onClick={() => {
+                  togglePlayPause();
+                }}
+              />
+              <Icon
+                icon="fluent:next-16-filled"
+                fontSize={28}
+                className="cursor-pointer text-gray-500 hover:text-white"
+              />
+              <Icon
+                icon="ic:twotone-repeat"
+                fontSize={28}
+                className="cursor-pointer text-gray-500 hover:text-white"
+              />
+            </div>
+            {/* <div className="bg-red-800">Progress BAR HERE</div> */}
           </div>
-          {/* <div className="bg-red-800">Progress BAR HERE</div> */}
+          <div className="w-1/4 flex justify-end">Hello</div>
         </div>
-        <div className="w-1/4 flex justify-end">Hello</div>
-      </div>
+      )}
     </div>
   );
 };
