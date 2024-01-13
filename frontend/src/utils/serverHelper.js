@@ -30,6 +30,22 @@ export const makeAuthenticatedPOSTRequest = async (route, body) => {
   const formattedResp = await resp.json();
   return formattedResp;
 };
+export const makeAuthenticatedGETRequest = async (route) => {
+  //useCookies being used in a function is not suggestive- works in a component
+  //Had this been in a component, we could use that useCookies
+  //Cookies are stored in document.cookies object
+  const token = getToken();
+
+  const resp = await fetch(backendUrl + route, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  });
+  const formattedResp = await resp.json();
+  return formattedResp;
+};
 
 const getToken = () => {
   const accessToken = document.cookie.replace(
