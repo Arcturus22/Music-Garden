@@ -1,9 +1,3 @@
-import Logo from "../Logo.png";
-import IconText from "../components/shared/IconText";
-import { Icon } from "@iconify/react";
-import TextwithHover from "../components/shared/TextwithHover";
-import { useState } from "react";
-import { Howl, Howler } from "howler";
 import LoggedInContainer from "../Containers/LoggedInContainer";
 
 const focusCardsData = [
@@ -73,7 +67,7 @@ const soundIndiaCardsData = [
 
 const Home = () => {
   return (
-    <LoggedInContainer>
+    <LoggedInContainer currActiveScreen="home">
       <PlaylistView titleText="Focus" cardsData={focusCardsData} />
       <PlaylistView titleText="Garden of Music" cardsData={focusCardsData} />
       <PlaylistView

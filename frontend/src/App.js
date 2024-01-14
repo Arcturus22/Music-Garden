@@ -14,6 +14,8 @@ import songContext from "./contexts/songContext";
 function App() {
   //Setting up context of the current song being played
   const [currentSong, setCurrrentSong] = useState(null);
+  const [soundPlayed, setSoundPlayed] = useState(null);
+  const [isPaused, setIsPaused] = useState(true);
   const [cookie, setCookie] = useCookies(["token"]);
   // console.log(cookie.token);
 
@@ -22,7 +24,7 @@ function App() {
       <BrowserRouter>
         {cookie.token ? (
           //LoggedIn Routes
-          <songContext.Provider value={{ currentSong, setCurrrentSong }}>
+          <songContext.Provider value={{ currentSong, setCurrrentSong, soundPlayed, setSoundPlayed, isPaused,setIsPaused }}>
             <Routes>
               <Route path="/" element={<div>Hello</div>} />
               <Route path="/home" element={<LoggedInHomeComponent />} />

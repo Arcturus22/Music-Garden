@@ -2,19 +2,33 @@ import Logo from "../Logo.png";
 import IconText from "../components/shared/IconText";
 import { Icon } from "@iconify/react";
 import TextwithHover from "../components/shared/TextwithHover";
-import { useState } from "react";
+import { useLayoutEffect, useRef, useState } from "react";
 import { Howl, Howler } from "howler";
 import songContext from "../contexts/songContext";
 import { useContext } from "react";
 
-const LoggedInContainer = ({ children }) => {
-  const [soundPlayed, setSoundPlayed] = useState(null);
-  const [isPaused, setIsPaused] = useState(true);
-
-  const { currentSong, setCurrrentSong } = useContext(songContext);
+const LoggedInContainer = ({ children, currActiveScreen }) => {
+  const {
+    currentSong,
+    setCurrrentSong,
+    isPaused,
+    setIsPaused,
+    soundPlayed,
+    setSoundPlayed,
+  } = useContext(songContext);
   // console.log(currentSong);
 
-  const playSound = (songSrc) => {
+  //PlaySound func
+  const playSound = () => {
+    console.log(soundPlayed);
+    if (!soundPlayed) {
+      return;
+    }
+    soundPlayed.play();
+  };
+
+  //changes song when different song is clicked
+  const changeSong = (songSrc) => {
     if (soundPlayed) {
       soundPlayed.stop();
     }
@@ -24,17 +38,32 @@ const LoggedInContainer = ({ children }) => {
     });
     setSoundPlayed(sound);
     sound.play();
-
-    console.log(sound);
+    setIsPaused(false);
+    console.log(soundPlayed);
   };
 
+  //Pauses a song
   const pauseSound = () => {
     soundPlayed.pause();
   };
 
+  const firstUpdate = useRef(true);
+  //triggered when currentSong is changed
+  useLayoutEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+    if (!currentSong) {
+      return;
+    }
+    console.log("HERE");
+    changeSong(currentSong.track);
+  }, [currentSong && currentSong.track]);
+
   const togglePlayPause = () => {
     if (isPaused) {
-      playSound(currentSong.track);
+      playSound();
       setIsPaused(false);
     } else {
       pauseSound();
@@ -56,22 +85,25 @@ const LoggedInContainer = ({ children }) => {
               <IconText
                 iconName={"ion:home-sharp"}
                 displayText={"Home"}
-                // active
-              />
+                active={currActiveScreen === "home"}
+                targetLink={"/home"}
+                />
               <IconText
                 iconName={"ion:search-sharp"}
                 displayText={"Search"}
-                // active
-              />
+                active={currActiveScreen === "search"}
+                />
               <IconText
                 iconName={"clarity:library-solid"}
                 displayText={"Library"}
-                // active
-              />
+                active={currActiveScreen === "Library"}
+                />
               <IconText
                 iconName={"ic:sharp-library-music"}
                 displayText={"My Music"}
+                active={currActiveScreen === "myMusic"}
                 //   active
+                targetLink={"/myMusic"}
               />
             </div>
             <div className="py-4">
@@ -83,7 +115,7 @@ const LoggedInContainer = ({ children }) => {
               <IconText
                 iconName={"mdi:heart-box"}
                 displayText={"Liked Songs"}
-                active
+                // active
               />
             </div>
           </div>
