@@ -6,8 +6,11 @@ import { useLayoutEffect, useRef, useState } from "react";
 import { Howl, Howler } from "howler";
 import songContext from "../contexts/songContext";
 import { useContext } from "react";
+import CreatePlaylistModal from "../modals/createPlaylistModal";
 
 const LoggedInContainer = ({ children, currActiveScreen }) => {
+
+  const [createPlaylistModalOpen, setCreatePlaylistModalOpen] =useState(false);
   const {
     currentSong,
     setCurrrentSong,
@@ -73,6 +76,10 @@ const LoggedInContainer = ({ children, currActiveScreen }) => {
 
   return (
     <div className="h-full w-full bg-appBlack">
+    {
+      createPlaylistModalOpen &&
+      <CreatePlaylistModal closeModal={()=>{setCreatePlaylistModalOpen(false)}}/>
+    }
       <div className={`${currentSong ? "h-9/10" : "h-full"} w-full  flex`}>
         {/* This is the screen size div due to w-full and h-full */}
         <div className="LeftPart h-full w-1/5 bg-black flex flex-col justify-between pb-10">
@@ -92,6 +99,7 @@ const LoggedInContainer = ({ children, currActiveScreen }) => {
                 iconName={"ion:search-sharp"}
                 displayText={"Search"}
                 active={currActiveScreen === "search"}
+                targetLink={"/search"}
                 />
               <IconText
                 iconName={"clarity:library-solid"}
@@ -110,7 +118,8 @@ const LoggedInContainer = ({ children, currActiveScreen }) => {
               <IconText
                 iconName={"ic:baseline-add-box"}
                 displayText={"Create Playlist"}
-                // active
+                onClick={()=>{setCreatePlaylistModalOpen(true)}}
+                // active={currActiveScreen==="CreatePlaylist"}
               />
               <IconText
                 iconName={"mdi:heart-box"}

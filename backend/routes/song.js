@@ -60,7 +60,7 @@ router.get(
     // console.log(req.params);
     const { songName } = req.params;
     //  Think about MONGODB QUERY- How to get nearest search result
-    const songs = await Song.find({ name: songName });
+    const songs = await Song.find({ name: songName }).populate("artist");
     return res.status(200).json({ data: songs });
   }
 );

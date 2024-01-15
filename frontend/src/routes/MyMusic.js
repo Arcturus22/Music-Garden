@@ -23,7 +23,7 @@ const MyMusic = () => {
       </div>
       <div className="space-y-3 overflow-auto">
         {songData.map((item) => {
-          return <SingleSongCard info={item} playSound={() => {}} />;
+          return <SingleSongCard info={item} key={JSON.stringify} playSound={() => {}} />;
         })}
       </div>
     </LoggedInContainer>
