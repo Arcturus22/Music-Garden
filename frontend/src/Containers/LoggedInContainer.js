@@ -7,10 +7,12 @@ import { Howl, Howler } from "howler";
 import songContext from "../contexts/songContext";
 import { useContext } from "react";
 import CreatePlaylistModal from "../modals/createPlaylistModal";
+import AddToPlaylistModal from "../modals/AddToPlaylistModal";
+import { makeAuthenticatedPOSTRequest } from "../utils/serverHelper";
 
 const LoggedInContainer = ({ children, currActiveScreen }) => {
-
-  const [createPlaylistModalOpen, setCreatePlaylistModalOpen] =useState(false);
+  const [createPlaylistModalOpen, setCreatePlaylistModalOpen] = useState(false);
+  const [addToPlaylistModalOpen, setAddToPlaylistModalOpen] = useState(false);
   const {
     currentSong,
     setCurrrentSong,
@@ -20,6 +22,19 @@ const LoggedInContainer = ({ children, currActiveScreen }) => {
     setSoundPlayed,
   } = useContext(songContext);
   // console.log(currentSong);
+
+  const addSongToPlaylist = async (playlistId) => {
+    const songId = currentSong._id;
+    const payload = { playlistId, songId };
+
+    const response = await makeAuthenticatedPOSTRequest(
+      "/playlist/add/song",
+      payload
+    );
+    if(response._id){
+setAddToPlaylistModalOpen(false);
+    }
+  };
 
   //PlaySound func
   const playSound = () => {
@@ -76,10 +91,21 @@ const LoggedInContainer = ({ children, currActiveScreen }) => {
 
   return (
     <div className="h-full w-full bg-appBlack">
-    {
-      createPlaylistModalOpen &&
-      <CreatePlaylistModal closeModal={()=>{setCreatePlaylistModalOpen(false)}}/>
-    }
+      {createPlaylistModalOpen && (
+        <CreatePlaylistModal
+          closeModal={() => {
+            setCreatePlaylistModalOpen(false);
+          }}
+        />
+      )}
+      {addToPlaylistModalOpen && (
+        <AddToPlaylistModal
+          closeModal={() => {
+            setAddToPlaylistModalOpen(false);
+          }}
+          addSongToPlaylist={addSongToPlaylist}
+        />
+      )}
       <div className={`${currentSong ? "h-9/10" : "h-full"} w-full  flex`}>
         {/* This is the screen size div due to w-full and h-full */}
         <div className="LeftPart h-full w-1/5 bg-black flex flex-col justify-between pb-10">
@@ -94,19 +120,19 @@ const LoggedInContainer = ({ children, currActiveScreen }) => {
                 displayText={"Home"}
                 active={currActiveScreen === "home"}
                 targetLink={"/home"}
-                />
+              />
               <IconText
                 iconName={"ion:search-sharp"}
                 displayText={"Search"}
                 active={currActiveScreen === "search"}
                 targetLink={"/search"}
-                />
+              />
               <IconText
                 iconName={"clarity:library-solid"}
                 displayText={"Library"}
                 active={currActiveScreen === "library"}
                 targetLink={"/library"}
-                />
+              />
               <IconText
                 iconName={"ic:sharp-library-music"}
                 displayText={"My Music"}
@@ -119,7 +145,9 @@ const LoggedInContainer = ({ children, currActiveScreen }) => {
               <IconText
                 iconName={"ic:baseline-add-box"}
                 displayText={"Create Playlist"}
-                onClick={()=>{setCreatePlaylistModalOpen(true)}}
+                onClick={() => {
+                  setCreatePlaylistModalOpen(true);
+                }}
                 // active={currActiveScreen==="CreatePlaylist"}
               />
               <IconText
@@ -224,7 +252,21 @@ const LoggedInContainer = ({ children, currActiveScreen }) => {
             </div>
             {/* <div className="bg-red-800">Progress BAR HERE</div> */}
           </div>
-          <div className="w-1/4 flex justify-end">Hello</div>
+          <div className="w-1/4 flex justify-end pr-4 space-x-4 items-center">
+            <Icon
+              icon="ic:round-playlist-add"
+              fontSize={30}
+              className="cursor-pointer text-gray-500 hover:text-white"
+              onClick={() => {
+                setAddToPlaylistModalOpen(true);
+              }}
+            />
+            <Icon
+              icon="ph:heart-bold"
+              fontSize={25}
+              className="cursor-pointer text-gray-500 hover:text-white"
+            />
+          </div>
         </div>
       )}
     </div>
