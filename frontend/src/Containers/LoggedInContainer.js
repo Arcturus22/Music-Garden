@@ -104,7 +104,8 @@ const LoggedInContainer = ({ children, currActiveScreen }) => {
               <IconText
                 iconName={"clarity:library-solid"}
                 displayText={"Library"}
-                active={currActiveScreen === "Library"}
+                active={currActiveScreen === "library"}
+                targetLink={"/library"}
                 />
               <IconText
                 iconName={"ic:sharp-library-music"}

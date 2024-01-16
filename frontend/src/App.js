@@ -11,6 +11,7 @@ import MyMusicComponent from "./routes/MyMusic";
 import SearchComponent from "./routes/search";
 import { useCookies } from "react-cookie";
 import songContext from "./contexts/songContext";
+import LibraryComponent from "./routes/Library";
 
 function App() {
   //Setting up context of the current song being played
@@ -32,6 +33,7 @@ function App() {
               <Route path="/uploadSong" element={<UploadSongComponent />} />
               <Route path="/myMusic" element={<MyMusicComponent />} />
               <Route path="/search" element={<SearchComponent />} />
+              <Route path="/library" element={<LibraryComponent />} />
               <Route path="*" element={<Navigate to="/home" />} />
             </Routes>
           </songContext.Provider>
