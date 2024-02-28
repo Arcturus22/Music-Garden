@@ -31,8 +31,8 @@ const LoggedInContainer = ({ children, currActiveScreen }) => {
       "/playlist/add/song",
       payload
     );
-    if(response._id){
-setAddToPlaylistModalOpen(false);
+    if (response._id) {
+      setAddToPlaylistModalOpen(false);
     }
   };
 

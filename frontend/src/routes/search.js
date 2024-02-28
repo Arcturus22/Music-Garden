@@ -48,28 +48,25 @@ const SearchPage = () => {
             }}
           />
         </div>
-          {
-            songData.length>0 ?
-        <div className="pt-8 space-y-2">
-
+        {songData.length > 0 ? (
+          <div className="pt-8 space-y-2">
             <div className="text-white">
-            Showing search results for 
-            <span className="font-bold">{searchText}</span> are:
-          </div>
-          {songData.map((item) => {
-            return (
-              <SingleSongCard
-              info={item}
-              key={JSON.stringify}
-              playSound={() => {}}
-              />
+              Showing search results for
+              <span className="font-bold">{searchText}</span> are:
+            </div>
+            {songData.map((item) => {
+              return (
+                <SingleSongCard
+                  info={item}
+                  key={JSON.stringify}
+                  playSound={() => {}}
+                />
               );
             })}
-        </div>:
-        <div className="text-white pt-8 ">
-          Nothing to show here.
-        </div>
-          }
+          </div>
+        ) : (
+          <div className="text-white pt-8 ">Nothing to show here.</div>
+        )}
       </div>
     </LoggedInContainer>
   );

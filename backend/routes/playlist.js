@@ -34,11 +34,14 @@ router.get(
   "/get/playlist/:playlistid",
   passport.authenticate("jwt", { session: false }),
   async (req, res) => {
-    console.log(req.params);
+    // console.log(req.params);
     const playlistId = req.params.playlistid;
     //REQ.PARAMS
     //Find the playlist with the playlist id got from req.params
-    const playlist = await Playlist.findOne({ _id: playlistId });
+    const playlist = await Playlist.findOne({ _id: playlistId }).populate({
+      path: "songs",
+      populate: { path: "artist" },
+    });
     if (!playlist) {
       return res.status(301).json({ err: "Invalid ID" });
     }
